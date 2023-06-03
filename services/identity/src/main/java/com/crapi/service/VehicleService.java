@@ -21,6 +21,7 @@ import com.crapi.model.VehicleLocationResponse;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 public interface VehicleService {
 
@@ -31,6 +32,9 @@ public interface VehicleService {
   List<VehicleDetails> getVehicleDetails(HttpServletRequest request);
 
   VehicleLocationResponse getVehicleLocation(UUID carId);
+
+  @Transactional
+  VehicleLocationResponse getVehicleLocation(UUID carId, HttpServletRequest request);
 
   CRAPIResponse checkVehicle(VehicleForm vehicleDetails, HttpServletRequest request);
 

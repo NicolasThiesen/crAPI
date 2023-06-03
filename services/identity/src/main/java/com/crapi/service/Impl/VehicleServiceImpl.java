@@ -138,30 +138,54 @@ public class VehicleServiceImpl implements VehicleService {
         UserMessage.CUSTOM_IO_EXCEPTION, UserMessage.VEHICLE_NOT_FOUND, 500);
   }
 
+  @Override
+  public VehicleLocationResponse getVehicleLocation(UUID carId) {
+    return null;
+  }
+
   /**
    * @param carId
    * @return VehicleDetails which is linked with this carId.
    */
   @Transactional
   @Override
-  public VehicleLocationResponse getVehicleLocation(UUID carId) {
+  public VehicleLocationResponse getVehicleLocation(UUID carId, HttpServletRequest request) {
     VehicleDetails vehicleDetails = null;
+    VehicleDetails vehicleDetailsList = null;
+    User user = null;
     VehicleLocationResponse vehicleLocationForm = null;
     UserDetails userDetails = null;
     Random random = new Random();
+//    try {
+//      user = userService.getUserFromToken(request);
+//      if (user != null) {
+//        vehicleDetailsList = vehicleDetailsRepository.findByOwner_id(user.getId());
+//        // String listaString = String.join(", ", vehicleDetailsList);
+//        // System.out.println();
+//        logger.info(vehicleDetailsList);
+//      }
+//    } catch (Exception exception) {
+//      logger.error("Fail to get vehicle location-> Message: {}", exception);
+//    }
     try {
       vehicleDetails = vehicleDetailsRepository.findByUuid(carId);
       if (vehicleDetails != null) {
         // vehicleDetails = vehicleDetailsRepository.findByVehicleLocation_id(carId);
         // vehicleDetails.setVehicleLocation(getVehicleLocationList().get(random.nextInt(getVehicleLocationList().size())));
         if (vehicleDetails.getOwner() != null) {
-          userDetails = userDetailsRepository.findByUser_id(vehicleDetails.getOwner().getId());
-          vehicleLocationForm =
-              new VehicleLocationResponse(
-                  carId,
-                  (userDetails != null ? userDetails.getName() : null),
-                  vehicleDetails.getVehicleLocation());
-          return vehicleLocationForm;
+          user = userService.getUserFromToken(request);
+          if (vehicleDetails.getOwner().getId() == user.getId()) {
+            userDetails = userDetailsRepository.findByUser_id(vehicleDetails.getOwner().getId());
+            vehicleLocationForm =
+                    new VehicleLocationResponse(
+                            carId,
+                            (userDetails != null ? userDetails.getName() : null),
+                            vehicleDetails.getVehicleLocation());
+            return vehicleLocationForm;
+          }else {
+            return null;
+          }
+
         }
       }
     } catch (Exception exception) {
