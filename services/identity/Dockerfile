@@ -19,6 +19,7 @@ COPY *.gradle.kts ./
 # Eat the expected build failure since no source code has been copied yet
 RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 COPY src src
+# RUN gradle :spotlessApply
 RUN gradle build
 RUN gradle bootJar
 
