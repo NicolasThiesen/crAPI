@@ -1,5 +1,6 @@
 plugins {
   id("java")
+  application
   id("org.springframework.boot") version "2.6.1"
   id("io.spring.dependency-management") version "1.0.11.RELEASE"
 }
@@ -9,6 +10,10 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClassName = "com.crapi.CRAPIBootApplication"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
