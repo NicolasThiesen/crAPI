@@ -29,6 +29,8 @@ public class VehicleLocation {
   private String latitude;
   private String longitude;
 
+  private String status;
+
   public VehicleLocation(String latitude, String longitude) {
     this.latitude = latitude;
     this.longitude = longitude;

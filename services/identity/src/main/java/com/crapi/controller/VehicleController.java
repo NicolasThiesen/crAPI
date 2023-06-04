@@ -108,7 +108,9 @@ public class VehicleController {
   @GetMapping("/vehicle/{carId}/location")
   public ResponseEntity<?> getLocationBOLA(@PathVariable("carId") UUID carId, HttpServletRequest request) {
     VehicleLocationResponse vehicleDetails = vehicleService.getVehicleLocation(carId, request);
-    if (vehicleDetails != null) return ResponseEntity.ok().body(vehicleDetails);
+    if (vehicleDetails.getStatus() == "200") return ResponseEntity.ok().body(vehicleDetails);
+    else if (vehicleDetails.getStatus() == "403") return ResponseEntity.status(HttpStatus.FORBIDDEN)
+          .body(new CRAPIResponse("You don't have permission to access this information."));
     else
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
           .body(new CRAPIResponse(UserMessage.DID_NOT_GET_VEHICLE_FOR_USER));

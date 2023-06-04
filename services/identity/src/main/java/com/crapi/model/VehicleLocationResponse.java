@@ -20,16 +20,17 @@ import lombok.Data;
 
 @Data
 public class VehicleLocationResponse {
-
+  private String status;
   private UUID carId;
   private VehicleLocation vehicleLocation;
   private String fullName;
 
   public VehicleLocationResponse() {}
 
-  public VehicleLocationResponse(UUID id, String name, VehicleLocation vehicleLocation) {
+  public VehicleLocationResponse(UUID id, String name, VehicleLocation vehicleLocation, String status) {
     this.carId = id;
     this.fullName = name;
     this.vehicleLocation = vehicleLocation;
+    this.status = status;
   }
 }

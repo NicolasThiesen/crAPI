@@ -138,11 +138,6 @@ public class VehicleServiceImpl implements VehicleService {
         UserMessage.CUSTOM_IO_EXCEPTION, UserMessage.VEHICLE_NOT_FOUND, 500);
   }
 
-  @Override
-  public VehicleLocationResponse getVehicleLocation(UUID carId) {
-    return null;
-  }
-
   /**
    * @param carId
    * @return VehicleDetails which is linked with this carId.
@@ -156,17 +151,6 @@ public class VehicleServiceImpl implements VehicleService {
     VehicleLocationResponse vehicleLocationForm = null;
     UserDetails userDetails = null;
     Random random = new Random();
-//    try {
-//      user = userService.getUserFromToken(request);
-//      if (user != null) {
-//        vehicleDetailsList = vehicleDetailsRepository.findByOwner_id(user.getId());
-//        // String listaString = String.join(", ", vehicleDetailsList);
-//        // System.out.println();
-//        logger.info(vehicleDetailsList);
-//      }
-//    } catch (Exception exception) {
-//      logger.error("Fail to get vehicle location-> Message: {}", exception);
-//    }
     try {
       vehicleDetails = vehicleDetailsRepository.findByUuid(carId);
       if (vehicleDetails != null) {
@@ -180,10 +164,10 @@ public class VehicleServiceImpl implements VehicleService {
                     new VehicleLocationResponse(
                             carId,
                             (userDetails != null ? userDetails.getName() : null),
-                            vehicleDetails.getVehicleLocation());
+                            vehicleDetails.getVehicleLocation(), "200");
             return vehicleLocationForm;
           }else {
-            return null;
+            return new VehicleLocationResponse(null, null, null, "403");
           }
 
         }

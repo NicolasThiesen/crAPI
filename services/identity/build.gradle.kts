@@ -2,7 +2,6 @@ plugins {
   id("java")
   id("org.springframework.boot") version "2.6.1"
   id("io.spring.dependency-management") version "1.0.11.RELEASE"
-  id("com.diffplug.spotless") version "5.9.0"
 }
 
 group = "com.crapi"
@@ -14,18 +13,7 @@ repositories {
 
 java.sourceCompatibility = JavaVersion.VERSION_11
 
-pluginManager.withPlugin("java") {
-    apply(plugin = "com.diffplug.spotless")
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        java {
-            removeUnusedImports()
-            googleJavaFormat("1.7")
-            indentWithSpaces(4)
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-    }
-}
+
 dependencies {
     val lombokVersion = "1.18.12"
     val mockito = "3.7.7"
